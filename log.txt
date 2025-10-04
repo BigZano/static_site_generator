@@ -1,0 +1,11 @@
+Static to Public Copy Operation - 2025-10-04 11:52:30.156897
+==================================================
+
+11:52:30 - Starting copy operation from /home/malcador/Documents/static_site_generator/static to /home/malcador/Documents/static_site_generator/public
+11:52:30 - Deleting existing contents of public directory...
+11:52:30 - Deleted directory: images
+11:52:30 - Deleted file: index.css
+11:52:30 - Created directory: images
+11:52:30 - Copied file: images/tolkien.png (678526 bytes)
+11:52:30 - Copied file: index.css (1739 bytes)
+11:52:30 - Copy operation completed successfully!
