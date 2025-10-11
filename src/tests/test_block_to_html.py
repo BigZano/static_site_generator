@@ -1,7 +1,7 @@
 import unittest
-from block_to_html import markdown_to_html_node, text_to_children
-from htmlnode import HTMLNode, LeafNode, ParentNode
-from textnode import TextNode, TextType
+from src.block_to_html import markdown_to_html_node, text_to_children
+from src.htmlnode import HTMLNode, LeafNode, ParentNode
+from src.textnode import TextNode, TextType
 
 
 class TestBlockToHTML(unittest.TestCase):

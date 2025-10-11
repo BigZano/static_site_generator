@@ -1,13 +1,16 @@
+import re
 from markdown_to_blocks import markdown_to_blocks
 from htmlnode import HTMLNode, LeafNode, ParentNode, text_node_to_html_node
 from textnode import TextNode, TextType
 from text_to_textnodes import text_to_textnodes
 
 def text_to_children(text):
-    text_nodes = text_to_textnodes(text)
+    nodes = text_to_textnodes(text)
     children = []
-    for text_node in text_nodes:
-        html_node = text_node_to_html_node(text_node)
+    for tn in nodes:
+        html_node = text_node_to_html_node(tn)
+        if html_node is None:
+            raise ValueError(f"Unexpected None from text_node_to_html_node for {tn}")
         children.append(html_node)
     return children
 
@@ -33,24 +36,34 @@ def markdown_to_html_node(markdown):
         elif text.startswith("# "):
             children.append(ParentNode("h1", text_to_children(block[2:].strip())))
         elif text.startswith("> "):
-            cleaned = "\n".join(l[2:] if l.startswith("> ") else l for l in block.splitlines())
+            quote_lines = []
+            for l in block.splitlines():
+                if l == ">":
+                    continue
+                if l.startswith("> "):
+                    quote_lines.append(l[2:])
+                else:
+                    break
+            cleaned = "\n".join(quote_lines).strip()
+            if not cleaned:
+                continue  # skip empty blockquote
             children.append(ParentNode("blockquote", text_to_children(cleaned)))
-        elif text.startswith("- "):
+        elif all(l.strip() == "" or re.match(r"^\d+\.\s+", l) for l in block.splitlines()):
             items = []
             for line in block.splitlines():
-                if line.startswith("- "):
-                    items.append(ParentNode("li", text_to_children(line[2:].strip())))
+                m = re.match(r"^(\d+)\.\s+(.*)", line.strip())
+                if m:
+                    items.append(ParentNode("li", text_to_children(m.group(2))))
+            children.append(ParentNode("ol", items))
+        elif all(l.strip() == "" or l.startswith("- ") for l in block.splitlines()):
+            items = []
+            for line in block.splitlines():
+                if line.strip().startswith("- "):
+                    items.append(ParentNode("li", text_to_children(line.strip()[2:])))
             children.append(ParentNode("ul", items))
-        # python
         else:
             lines = [l.strip() for l in block.splitlines()]
             para_text = " ".join([l for l in lines if l])
             inlines = text_to_children(para_text)
-            # remap strong/em -> b/i for paragraph expectations
-            for ch in inlines:
-                if getattr(ch, "tag", None) == "strong":
-                    ch.tag = "b"
-                elif getattr(ch, "tag", None) == "em":
-                    ch.tag = "i"
             children.append(ParentNode("p", inlines))
     return ParentNode("div", children)

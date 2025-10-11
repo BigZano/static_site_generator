@@ -1,6 +1,6 @@
 import unittest
 
-from extract_markdown import extract_markdown_links, extract_markdown_images
+from src.extract_markdown import extract_markdown_links, extract_markdown_images
 from textnode import TextNode, TextType
 
 

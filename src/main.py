@@ -1,6 +1,7 @@
 import os
 import shutil
 from datetime import datetime
+from Gen_Content.generate_page import generate_pages_recursive
 
 def copy_static_to_public():
     """
@@ -72,7 +73,13 @@ def copy_static_to_public():
         
         # Start the recursive copy
         copy_recursive(static_path, public_path)
+
+        # Generate pages recursively from content directory
+        content_path = os.path.join(workspace_root, "content")
+        template_path = os.path.join(workspace_root, "template.html")
+        generate_pages_recursive(content_path, template_path, public_path)
         
+        log_message("Page generation completed successfully!")
         log_message("Copy operation completed successfully!")
         return True
         

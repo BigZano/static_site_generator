@@ -25,6 +25,8 @@ class HTMLNode:
 
 class LeafNode(HTMLNode):
     def __init__(self, tag, value, props=None):
+        if value is None:
+            raise ValueError(f"LeafNode must have a value (tag={tag}, props={props})")
         super().__init__(tag=tag, value=value, children=None, props=props)
 
     def to_html(self):
@@ -50,9 +52,9 @@ class ParentNode(HTMLNode):
 
 def text_node_to_html_node(TextNode):
     if TextNode.text_type == TextType.BOLD_TEXT:
-        return LeafNode("strong", TextNode.text)
+        return LeafNode("b", TextNode.text)
     elif TextNode.text_type == TextType.ITALIC_TEXT:
-        return LeafNode("em", TextNode.text)
+        return LeafNode("i", TextNode.text)
     elif TextNode.text_type == TextType.PLAIN_TEXT:
         return LeafNode(None, TextNode.text)
     elif TextNode.text_type == TextType.CODE_TEXT:
@@ -64,7 +66,7 @@ def text_node_to_html_node(TextNode):
     elif TextNode.text_type == TextType.IMAGES:
         if not TextNode.url:
             raise ValueError("Image text nodes must have a URL")
-        return LeafNode("img", None, props={"src": TextNode.url, "alt": TextNode.text})
+        return LeafNode("img", "", props={"src": TextNode.url, "alt": TextNode.text})
     else:
         raise ValueError(f"Unknown text type: {TextNode.text_type}")
     
