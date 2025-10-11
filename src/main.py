@@ -1,18 +1,19 @@
 import os
+import sys
 import shutil
 from datetime import datetime
 from Gen_Content.generate_page import generate_pages_recursive
 
-def copy_static_to_public():
+def copy_static_to_docs(basepath="/"):
     """
-    Recursively copies all contents from static directory to public directory.
-    Deletes existing contents of public directory first.
+    Recursively copies all contents from static directory to docs directory.
+    Deletes existing contents of docs directory first.
     Logs all operations to log.txt in the workspace root.
     """
     # Get the workspace root (parent of src directory)
     workspace_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     static_path = os.path.join(workspace_root, "static")
-    public_path = os.path.join(workspace_root, "public")
+    docs_path = os.path.join(workspace_root, "docs")
     log_path = os.path.join(workspace_root, "log.txt")
     
     # Initialize log file
@@ -32,13 +33,13 @@ def copy_static_to_public():
             log_message(f"ERROR: Static directory does not exist at {static_path}")
             return False
         
-        log_message(f"Starting copy operation from {static_path} to {public_path}")
+        log_message(f"Starting copy operation from {static_path} to {docs_path}")
         
-        # Delete contents of public directory if it exists
-        if os.path.exists(public_path):
-            log_message("Deleting existing contents of public directory...")
-            for item in os.listdir(public_path):
-                item_path = os.path.join(public_path, item)
+        # Delete contents of docs directory if it exists
+        if os.path.exists(docs_path):
+            log_message("Deleting existing contents of docs directory...")
+            for item in os.listdir(docs_path):
+                item_path = os.path.join(docs_path, item)
                 if os.path.isdir(item_path):
                     shutil.rmtree(item_path)
                     log_message(f"Deleted directory: {item}")
@@ -46,9 +47,9 @@ def copy_static_to_public():
                     os.remove(item_path)
                     log_message(f"Deleted file: {item}")
         else:
-            # Create public directory if it doesn't exist
-            os.makedirs(public_path)
-            log_message("Created public directory")
+            # Create docs directory if it doesn't exist
+            os.makedirs(docs_path)
+            log_message("Created docs directory")
         
         # Recursively copy static contents to public
         def copy_recursive(src_dir, dest_dir, relative_path=""):
@@ -72,12 +73,12 @@ def copy_static_to_public():
                     log_message(f"Copied file: {relative_item} ({file_size} bytes)")
         
         # Start the recursive copy
-        copy_recursive(static_path, public_path)
+        copy_recursive(static_path, docs_path)
 
         # Generate pages recursively from content directory
         content_path = os.path.join(workspace_root, "content")
         template_path = os.path.join(workspace_root, "template.html")
-        generate_pages_recursive(content_path, template_path, public_path)
+        generate_pages_recursive(content_path, template_path, docs_path, basepath)
         
         log_message("Page generation completed successfully!")
         log_message("Copy operation completed successfully!")
@@ -89,9 +90,12 @@ def copy_static_to_public():
 
 def main():
     """Main function to run the copy operation"""
-    success = copy_static_to_public()
+    # Get basepath from command line argument, default to "/"
+    basepath = sys.argv[1] if len(sys.argv) > 1 else "/"
+    
+    success = copy_static_to_docs(basepath)
     if success:
-        print("Static files copied to public directory successfully!")
+        print("Static files copied to docs directory successfully!")
     else:
         print("Error occurred during copy operation. Check log.txt for details.")
 
