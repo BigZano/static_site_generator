@@ -1,18 +1,13 @@
-Static to Public Copy Operation - 2025-10-11 12:53:01.772748
+Build Operation - 2025-10-28 11:08:59.085448
 ==================================================
 
-12:53:01 - Starting copy operation from /home/malcador/Documents/static_site_generator/static to /home/malcador/Documents/static_site_generator/docs
-12:53:01 - Deleting existing contents of docs directory...
-12:53:01 - Deleted file: index.html
-12:53:01 - Deleted directory: contact
-12:53:01 - Deleted directory: images
-12:53:01 - Deleted directory: blog
-12:53:01 - Deleted file: index.css
-12:53:01 - Created directory: images
-12:53:01 - Copied file: images/tolkien.png (678526 bytes)
-12:53:01 - Copied file: images/rivendell.png (1455216 bytes)
-12:53:01 - Copied file: images/glorfindel.png (439576 bytes)
-12:53:01 - Copied file: images/tom.png (512279 bytes)
-12:53:01 - Copied file: index.css (1739 bytes)
-12:53:01 - Page generation completed successfully!
-12:53:01 - Copy operation completed successfully!
+11:08:59 - Starting build from /home/malcador/Documents/static_site_generator/static to /home/malcador/Documents/static_site_generator/docs
+11:08:59 - Deleting existing docs directory...
+11:08:59 - Created fresh docs directory
+11:08:59 - Copied file: favicon.svg (262 bytes)
+11:08:59 - Copied file: print.css (312 bytes)
+11:08:59 - Copied file: index.css (3508 bytes)
+11:08:59 - Copied file: site.webmanifest (278 bytes)
+11:08:59 - Generating resume page...
+11:08:59 - Generated: index.html
+11:08:59 - Build completed successfully!

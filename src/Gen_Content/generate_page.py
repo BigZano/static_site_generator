@@ -1,57 +1,72 @@
 import os
-import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from block_to_html import markdown_to_html_node
-from .extract_title_markdown import extract_title
+import re
+from pathlib import Path
 
+def _first_paragraph(markdown: str, max_len: int = 180) -> str:
+    """Extract first non-heading paragraph for meta description"""
+    for line in markdown.splitlines():
+        s = line.strip()
+        if not s:
+            continue
+        if s.startswith(("#", "!", "-", "*", ">", "[")):
+            continue
+        s = re.sub(r"\s+", " ", s)
+        return (s[:max_len] + "…") if len(s) > max_len else s
+    return "Professional resume and portfolio"
 
-def generate_page(from_path, template_path, to_path, basepath="/"):
-    print(f"Generating page from {from_path} to {to_path} using template {template_path}")
-    md = _read_text(from_path)
-    title = extract_title(md)
-    html = markdown_to_html_node(md).to_html()
-    tmpl = _read_text(template_path)
-    page = tmpl.replace("{{ Title }}", title).replace("{{ Content }}", html)
+def _to_canonical(base_url: str, dest_path: str) -> str:
+    """Generate canonical URL from destination path"""
+    p = Path(dest_path)
+    try:
+        rel = p.relative_to("docs")
+    except Exception:
+        rel = p
+    url_path = "/" if rel.as_posix() in ("", ".") else "/" + rel.as_posix()
+    if url_path.endswith("/index.html"):
+        url_path = url_path[: -len("index.html")]
+    if not base_url.endswith("/"):
+        base_url += "/"
+    return (base_url.rstrip("/") + url_path).replace("//", "/")
+
+def _render_markdown(markdown: str) -> str:
+    """Convert markdown to HTML using existing pipeline"""
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+    from block_to_html import markdown_to_html_node
+    return markdown_to_html_node(markdown).to_html()
+
+def generate_page(from_path, template_path, dest_path):
+    """Generate a single HTML page from markdown"""
+    print(f"Generating page from {from_path} to {dest_path}")
     
-    # Replace basepath in href and src attributes
-    page = page.replace('href="/', f'href="{basepath}')
-    page = page.replace('src="/', f'src="{basepath}')
-    
-    _write_text(to_path, page)
+    with open(from_path, "r", encoding="utf-8") as f:
+        markdown = f.read()
 
+    import sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+    from Gen_Content.extract_title_markdown import extract_title
+    title = extract_title(markdown)
 
-def _read_text(path):
-    with open(path, "r", encoding="utf-8") as f:
-        return f.read()
-    
-def _write_text(path, text):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(text)
+    description = _first_paragraph(markdown)
+    base_url = "/"
+    canonical = _to_canonical(base_url, dest_path)
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath="/"):
-    """
-    Recursively crawl every entry in the content directory.
-    For each markdown file found, generate a new .html file using the template.
-    The generated pages are written to the docs directory maintaining the same directory structure.
-    """
-    print(f"Scanning directory: {dir_path_content}")
+    content_html = _render_markdown(markdown)
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        template = f.read()
+
+    page_html = (
+        template
+        .replace("{{ Title }}", title)
+        .replace("{{ Content }}", content_html)
+        .replace("{{ Description }}", description)
+        .replace("{{ Canonical }}", canonical)
+        .replace("{{ BaseUrl }}", base_url)
+    )
+
+    os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+    with open(dest_path, "w", encoding="utf-8") as f:
+        f.write(page_html)
     
-    if os.path.isdir(dir_path_content):
-        # Create corresponding directory in destination if it doesn't exist
-        os.makedirs(dest_dir_path, exist_ok=True)
-        
-        # Process each item in the directory
-        for entry in os.listdir(dir_path_content):
-            entry_from = os.path.join(dir_path_content, entry)
-            entry_to = os.path.join(dest_dir_path, entry)
-            
-            # Recursively process subdirectories and files
-            generate_pages_recursive(entry_from, template_path, entry_to, basepath)
-            
-    elif dir_path_content.endswith(".md"):
-        # Convert .md extension to .html for the output file
-        html_output_path = dest_dir_path[:-3] + ".html" if dest_dir_path.endswith(".md") else dest_dir_path.replace(".md", ".html")
-        generate_page(dir_path_content, template_path, html_output_path, basepath)
-    else:
-        print(f"Skipping non-markdown file: {dir_path_content}")
+    print(f"Page written to {dest_path}")

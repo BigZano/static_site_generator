@@ -4,7 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ Title }}</title>
-    <link href="/index.css" rel="stylesheet" />
+
+    <!-- Basic SEO -->
+    <meta name="description" content="{{ Description }}" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ Title }}" />
+    <meta property="og:description" content="{{ Description }}" />
+    <meta property="og:url" content="{{ Canonical }}" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ Title }}" />
+    <meta name="twitter:description" content="{{ Description }}" />
+
+    <!-- Icons / PWA -->
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <meta name="theme-color" content="#0b6efd" />
+
+    <!-- Styles -->
+    <link href="./index.css" rel="stylesheet" />
+    <link href="./print.css" rel="stylesheet" media="print" />
   </head>
 
   <body>
