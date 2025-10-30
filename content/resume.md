@@ -1,6 +1,6 @@
 # Bret Zanotelli
 
-[bretzanotelli@yahoo.com](mailto:bretzanotelli@yahoo.com) • [github.com/bigzano](https://github.com/bigzano)
+[bretzanotelli@yahoo.com](mailto:bretzanotelli@yahoo.com) • [github.com/bigzano](https://github.com/bigzano) • [About Me](aboutme.html)
 
 > Experienced System Administrator and Jr backend developer with experience in Windows environments and with Linux endpoints. Provided remote and on-site support for businesses throughout the Puget Sound Corridor. Passionate about computer networking and network security.
 
@@ -15,6 +15,8 @@
 - Microsoft 365 Administration
 
 - Network Administration and Monitoring
+
+- Server virtualization
 
 ## Experience
 

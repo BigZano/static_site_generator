@@ -80,6 +80,17 @@ def copy_static_to_docs():
         log_message(traceback.format_exc())
         return False
 
+def copy_static_assets(static_dir: Path, output_dir: Path):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for item in static_dir.iterdir():
+        dst = output_dir / item.name
+        if item.is_dir():
+            if dst.exists():
+                shutil.rmtree(dst)
+            shutil.copytree(item, dst)
+        else:
+            shutil.copy2(item, dst)
+
 def main():
     """Main build function"""
     success = copy_static_to_docs()
@@ -92,3 +103,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+    project_root = Path(__file__).resolve().parents[1]
+    docs_dir = project_root / "docs"
+    static_dir = project_root / "static"
+
+    copy_static_assets(static_dir, docs_dir)
