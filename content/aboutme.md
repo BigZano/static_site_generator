@@ -2,6 +2,8 @@
 
 I am a lifelong computer enthusiast, guitar player for about half of it, and a 40K fan for about 1/4 of it. I currently help run two different WH:40K communities in my free time, as well as continuing to hone my IT and development skills. 
 
+![lemme take a selfie](./headshot.jpg)
+
 ## Professional
 
 Beginning all the way back when I first played Diablo 2 for the first time, I knew I was going to work with computers in *some* capacity. Once I saw the flames move on the title screen, I was *hooked* when it came to computers. Learning all I could through my teen years, we didn't have much in the way of availablilty for parts so it lead to some creative problem solving to get programs and later games to run. This ultimately culminated in me "frankensteining" two computers together in order to play Diablo 3 on release, which "worked" in the sense that it ran the game...but shortly after worked no longer. This ended up being an expensive lesson in making sure everything is supported with each other parts wise. 
@@ -29,5 +31,4 @@ Outside of work I'm normally practicing my development skills, reading a book, l
 I currently am following the boot.dev developer course, which has made actually sticking to the lessons a lot easier than doing it solo. There's just enough structure and freedom to where it suits my needs very well. In fact, this entire site started as one of their projects! With a focus on Python and GO, it's felt like a natural and easy to understand compliment to my current experience with Bash and PowerShell. Currently they offer Backend Dev courses, which is the track I'm following. There are plans to release a DevOps course - which is entirely more my speed. One of my favorite aspects of working in IT has been the networking side of the house, and making things "talk" to each other. DevOps, with a focus on automation and deployment, feels like a natural progression of my interests and ultimately one of two end goals for my career. 
 
 
-![lemme take a selfie](./headshot.jpg)
 <a href="./resume.html" class="back-button">← Back</a>
