@@ -33,6 +33,7 @@ def _render_markdown(markdown: str) -> str:
     import sys
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
     from block_to_html import markdown_to_html_node
+    
     return markdown_to_html_node(markdown).to_html()
 
 def generate_page(from_path, template_path, dest_path):

@@ -1,14 +1,15 @@
-Build Operation - 2025-10-30 11:03:03.998174
+Build Operation - 2025-10-30 11:24:32.445547
 ==================================================
 
-11:03:03 - Starting build from /home/malcador/Documents/static_site_generator/static to /home/malcador/Documents/static_site_generator/docs
-11:03:03 - Deleting existing docs directory...
-11:03:03 - Created fresh docs directory
-11:03:03 - Copied file: headshot.jpg (4470531 bytes)
-11:03:03 - Copied file: favicon.svg (262 bytes)
-11:03:03 - Copied file: print.css (312 bytes)
-11:03:04 - Copied file: index.css (3508 bytes)
-11:03:04 - Copied file: site.webmanifest (278 bytes)
-11:03:04 - Generating resume page...
-11:03:04 - Generated: index.html
-11:03:04 - Build completed successfully!
+11:24:32 - Starting build from /home/malcador/Documents/static_site_generator/static to /home/malcador/Documents/static_site_generator/docs
+11:24:32 - Deleting existing docs directory...
+11:24:32 - Created fresh docs directory
+11:24:32 - Copied file: headshot.jpg (4470531 bytes)
+11:24:32 - Copied file: favicon.svg (262 bytes)
+11:24:32 - Copied file: print.css (312 bytes)
+11:24:32 - Copied file: index.css (3508 bytes)
+11:24:32 - Copied file: site.webmanifest (278 bytes)
+11:24:32 - Generating page: aboutme.md -> aboutme.html
+11:24:32 - Generating page: resume.md -> resume.html
+11:24:32 - Set homepage: index.html copied from resume.html
+11:24:32 - Build completed successfully!
